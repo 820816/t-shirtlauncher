@@ -1,0 +1,75 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+package frc.robot;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.wpilibj.hal.HAL;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.Compressor;
+package org.usfirst.frc.team190.robot;
+
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.IterativeRobot;
+
+public class Robot extends IterativeRobot {
+    
+    public void robotInit() {
+        CameraServer.getInstance().startAutomaticCapture();
+    }
+}
+
+
+
+/**
+ * This is a demo program showing how to use Mecanum control with the RobotDrive
+ * class.
+ */
+public class Robot extends TimedRobot {
+  private static final int kFrontLeftChannel = 2;
+  private static final int kRearLeftChannel = 3;
+  private static final int kFrontRightChannel = 1;
+  private static final int kRearRightChannel = 0;
+
+  private static final int kJoystickChannel = 0;
+
+  private MecanumDrive m_robotDrive;
+  private Joystick m_stick;
+
+  @Override
+  public void robotInit() {
+    m_frontLeft = new Spark(0);	
+    m_rearLeft = new Spark(1);
+	m_frontRight = new Spark(14);	
+	m_rearRight = new Spark(15);
+
+    // Invert the left side motors.
+    // You may need to change or remove this to match your robot.
+    frontLeft.setInverted(true);
+    rearLeft.setInverted(true);
+
+    m_robotDrive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+
+    m_stick = new Joystick(kJoystickChannel);
+  }
+
+  @Override
+  public void teleopPeriodic() {
+    // Use the joystick X axis for lateral movement, Y axis for forward
+    // movement, and Z axis for rotation.
+    m_robotDrive.driveCartesian(m_stick.getX(), m_stick.getY(),
+        m_stick.getZ(), 0.0);
+
+
+
+
+  }
+
